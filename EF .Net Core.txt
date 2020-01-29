@@ -1,0 +1,8 @@
+dotnet ef migrations add Init -p Persistence/ -s API/
+add migration 
+
+ "JudgeMyTasteDatabase": "Server=.;Database=JudgeMyTaste;user id=webapp;password=P@ssw0rd!"
+ -h => hulp bv dotnet ef -h
+
+
+dotnet ef migration add SeedValues -p Persistence/ -s API/
