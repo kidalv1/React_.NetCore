@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "react@16.12.0",
+      "destination": "lib/react/"
+    }
+  ]
+}
