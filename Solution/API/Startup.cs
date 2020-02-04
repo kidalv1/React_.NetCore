@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Activities;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,7 +30,11 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("React")));
-            services.AddControllers();
+      //deze is nodig zodat react data kan lezen van api
+          services.AddCors(); // Make sure you call this previous to AddMvc
+          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+          services.AddMvc(options => options.EnableEndpointRouting = false);
+          services.AddMediatR(typeof(List.Handler).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,13 +45,17 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+          app.UseCors(
+            options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
+          );
+      //app.UseHttpsRedirection();
+            app.UseMvc();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+      app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
