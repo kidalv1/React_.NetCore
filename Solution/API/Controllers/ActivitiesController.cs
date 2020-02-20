@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +15,24 @@ namespace API.Controllers
     public class ActivitiesController : ControllerBase
     {
       private readonly IMediator _mediator;
+      private readonly Repo _repo;
 
-      public ActivitiesController(IMediator mediator)
+      public ActivitiesController(IMediator mediator, IRepo repo)
       {
+        _repo = (Repo) repo;
         _mediator = mediator;
       }
+
         // GET: api/Activies
         [HttpGet]
-        public async Task<ActionResult<List<Activity>>> Get()
+        public async Task<ActionResult<IEnumerable<Activity>>> Get(int page = 0 , int pageSize = 5)
         {
-          return await _mediator.Send(new List.Query());
-;       }
+          //return await _mediator.Send(new List.Query());
+
+          var ac = await _repo.FindPaged<Activity>(page, pageSize);
+          return Ok(ac);
+
+        }
 
         // GET: api/Activies/5
         [HttpGet("{id}")]
