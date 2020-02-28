@@ -6,3 +6,8 @@ add migration
 
 
 dotnet ef migration add SeedValues -p Persistence/ -s API/
+
+
+
+dotnet ef database update -p DataContext/ -s API/
+update dabase

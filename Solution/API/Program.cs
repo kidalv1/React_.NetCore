@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistence;
 using Persistence.Migrations;
+using Microsoft.AspNetCore;
 
 namespace API
 {
